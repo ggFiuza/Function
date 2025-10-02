@@ -1,4 +1,3 @@
-
 function menu() {
 
     let historicoPokemon = []
@@ -15,7 +14,7 @@ function menu() {
             gerarPokemao(historicoPokemon)
         }
         else if(escolha == 'b'){
-            taxaDeCaptura()
+            taxaDeCaptura(historicoPokemon)
         }
         else if(escolha =='c'){
             historico(historicoPokemon)
@@ -24,7 +23,7 @@ function menu() {
             encerrar()
             break
         }
-}
+    }
 }
 
 function gerarPokemao(historicoPokemon){
@@ -32,35 +31,61 @@ function gerarPokemao(historicoPokemon){
     let raro = ["Arcanine", "Lapras", "Dragonite", "Gengar", "Tyranitar"];
     let lendarios = ["Mewtwo", "Lugia", "Rayquaza", "Dialga", "Giratina"];
 
-let chance = Math.random()
-let tipo 
-let pokemon 
+    let chance = Math.random()
+    let tipo 
+    let pokemon 
 
-if (chance <= 0.8){
-    pokemon = comum[Math.floor(Math.random()* 5)];
-    tipo = 'Comum';
-}
-else if (chance <= 0.95){
-    pokemon = raro[Math.floor(Math.random()* 5)]; 
-    tipo = 'Raro';
-}
-else {
-    pokemon = lendarios[Math.floor(Math.random()* 5)];
-    tipo = 'Lendario';
-}
+    if (chance <= 0.8){
+        pokemon = comum[Math.floor(Math.random()* 5)];
+        tipo = 'Comum';
+    }
+    else if (chance <= 0.95){
+        pokemon = raro[Math.floor(Math.random()* 5)]; 
+        tipo = 'Raro';
+    }
+    else {
+        pokemon = lendarios[Math.floor(Math.random()* 5)];
+        tipo = 'Lendario';
+    }
 
-    alert(`Pokemons gerados até o momento ${pokemon} ${tipo} `);
+    alert(`Pokemons gerado: ${pokemon} ${tipo} `);
 
-
-historicoPokemon.push({pokemon, tipo});
+    historicoPokemon.push({pokemon, tipo});
 }
 
 function historico(historicoPokemon){
-        let mensagem = "";
-        historicoPokemon.forEach((poke, i) => {
+    let mensagem = "";
+    historicoPokemon.forEach((poke, i) => {
         mensagem += `Pokémon ${i + 1}: ${poke.pokemon} (${poke.tipo})\n` ;
-});
-        alert(mensagem);
+    });
+    alert(mensagem);
+}
+
+function taxaDeCaptura(historicoPokemon) {
+    if (historicoPokemon.length === 0) {
+        alert("Nenhum pokemão foi gerado ainda!");
+        return;
+    }
+
+    let ultimo = historicoPokemon[historicoPokemon.length - 1];
+    let tipo = ultimo.tipo;
+
+    let normalItem;
+    let raroItem;
+
+    if (tipo === "Comum" || tipo === "Raro") {
+        normalItem = 1.0;
+        raroItem = 2.0;
+    } else if (tipo === "Lendario") {
+        normalItem = 0.8;
+        raroItem = 1.2;
+    }
+
+    alert(
+        `Último Pokémon: ${ultimo.pokemon} (${tipo})\n` +
+        `Chance com item NORMAL: ${normalItem}\n` +
+        `Chance com item RARO: ${raroItem}`
+    );
 }
 
 menu()
